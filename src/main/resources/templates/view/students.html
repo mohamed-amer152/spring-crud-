@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html   
+ xmlns="https://www.thymeleaf.org"
+ xmlns:spec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+<head>
+<meta charset="ISO-8859-1">
+<title>Students</title>
+ <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+</head>
+<body>
+
+ <h2> &nbsp;&nbsp;&nbsp; Welcome To spring boot jpa crud and spring security with bcrypt password </h2>
+<hr>
+
+
+
+		<div class="container-lg">
+		
+		
+		
+		<div>
+	 <p class="text-lg-start" >	User: <span sec:authentication="name"></span></p>
+		<br>
+	<p class="text-lg-start">	Role(s): <span sec:authentication="principal.authorities"></span></p>
+		<br><br>
+	   </div>
+	   
+	   <!-- add search form  -->
+				   <div>
+				         <form action="#" th:action="@{/student/search}" >
+				           <div class="input-group mb-3">
+							  <span class="input-group-text" id="basic-addon1">@</span>
+				           <input type="search" placeholder="Student Name" name="studentname" class="form-control" aria-label="Username" aria-describedby="basic-addon1"/>
+							</div>
+				           <input type="submit" value="Searche" class="btn btn-primary"/>
+				                 <a
+								   th:href="@{/student/list}"  class="btn btn-primary"
+							     	>All Students
+								</a>
+				         </form>
+				   </div>
+					<br><br>
+					
+					
+		<div sec:authorize ="hasRole('MANAGER')">
+			<a
+			   th:href="@{/student/saveform}"  class="btn btn-primary"
+			>Add Student
+			</a>
+		</div>
+		<br><br>
+		
+				<table class="table table-bordered table-striped ">
+				
+				  <thead >
+				          <tr class="thead-dark">
+				               <th>FirstName</th>
+				               <th>LastName</th>
+				               <th>Email</th>
+				               
+				               <th>
+				                    <div sec:authorize="hasAnyRole('MANAGER' ,'ADMIN')">
+				                     Action
+				                    </div>  
+				               </th>
+				              
+				          </tr>
+				  </thead>
+				  
+				  
+				  <tbody>
+				  			
+				  			<tr th:each ="templist : ${students}" >
+				  			    
+				  			    <td th:text ="${templist.firstName}"/>
+				  			    <td th:text ="${templist.lastName}"/>
+				  			    <td th:text ="${templist.email}"/>
+				  			    <td>
+				  			        <div sec:authorize ="hasRole('MANAGER')">
+				  			          <a th:href="@{/student/updateform(sid=${templist.id})}"  class="btn btn-primary"> Update </a> 
+				  			        </div>
+				  			        
+				  			        <div sec:authorize ="hasRole('ADMIN')">
+				  			          <a th:href="@{/student/delete(sid=${templist.id})}"
+				  			           onclick="if (!(confirm('are you sure?'))) return false;" class="btn btn-danger"
+				  			          >  Delete</a> 
+				  			          
+				  			        </div>
+				  			    </td>
+				  			 
+				  			    
+				  			</tr>
+				  
+				  </tbody>
+				
+				</table>
+				
+						
+						<!-- Add a logout button -->
+						<form action="#" th:action="@{/logout}" method="post">
+						<input type="submit"  value="log out" class="btn btn-outline-primary mt-2" />
+						</form>
+		<br><br>
+		</div>
+
+
+
+
+
+</body>
+</html>

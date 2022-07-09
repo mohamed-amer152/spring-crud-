@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html 
+ xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+<meta charset="ISO-8859-1">
+<title>login</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+        <div class="row">
+			<div class="col-md-5 mx-auto">
+			<div id="first">
+				<div class="myform form ">
+					 <div class="logo mb-3">
+						 <div class="col-md-12 text-center">
+							<h1>Login</h1>
+						 </div>
+					</div>
+                   <form th:action="@{/auth}" method="post" name="login">
+                   
+                   <div th:if="${param.error}">
+                      <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+							Invalid username and password.</div>
+                   </div>
+                   
+                   <div th:if="${param.logout}">
+                      <div class="alert alert-success col-xs-offset-1 col-xs-10">
+							You have been logged out.</div>
+                   </div>
+                   
+                   
+                           <div class="form-group">
+                              <label for="exampleInputEmail1">UserName</label>
+                              <input type="text" name="username"  class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+                           </div>
+                           <div class="form-group">
+                              <label for="exampleInputEmail1">Password</label>
+                              <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                           </div>
+                           <div class="form-group">
+                              <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
+                           </div>
+                           <div class="col-md-12 text-center ">
+                              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+                           </div>
+                           
+                        </form>
+                        
+                        <form th:action="@{/reg}">
+                          <div class="form-group">
+                              <p class="text-center">Don't have account? <a href="#" id="signup">Sign up here</a></p>
+                           </div>
+                        </form>
+                 
+				</div>
+			</div>
+			
+			
+			  <div id="second">
+			      <div class="myform form ">
+                        <div class="logo mb-3">
+                           <div class="col-md-12 text-center">
+                              <h1 >Signup</h1>
+                           </div>
+                        </div>
+                        <form th:action="@{/saveuser}" name="registration">
+                           <div class="form-group">
+                              <label for="exampleInputEmail1">userName</label>
+                              <input type="text"  name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+                           </div>
+                           
+                           <div class="form-group">
+                              <label for="exampleInputEmail1">Password</label>
+                              <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                           </div>
+                           
+                            <div class="form-group">
+                              <input type="radio" name="authority" id="authority" value="ROLE_ADMIN"> admin 
+                           </div>
+                            <div class="form-group">
+                              <input type="radio" name="authority" id="authority" value="ROLE_MANAGER"> manager 
+                           </div>
+                            <div class="form-group">
+                              <input type="radio" name="authority" id="authority" value="ROLE_EMPLOYEE"> employee 
+                           </div>
+                           
+                           
+                           <div class="col-md-12 text-center mb-3">
+                              <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">SignUp</button>
+                           </div>
+                           <div class="col-md-12 ">
+                              <div class="form-group">
+                                 <p class="text-center"><a href="#" id="signin">Already have an account?</a></p>
+                              </div>
+                           </div>
+                            
+                        </form>
+                    </div>
+			</div>
+		</div>
+      </div> 
+
+<script type="text/javascript">
+$("#signup").click(function() {
+	$("#first").fadeOut("fast", function() {
+	$("#second").fadeIn("fast");
+	});
+	});
+
+	$("#signin").click(function() {
+	$("#second").fadeOut("fast", function() {
+	$("#first").fadeIn("fast");
+	});
+	});
+
+
+	  
+	         $(function() {
+	           $("form[name='login']").validate({
+	             rules: {
+	               
+	               email: {
+	                 required: true,
+	                 email: true
+	               },
+	               password: {
+	                 required: true,
+	                 
+	               }
+	             },
+	              messages: {
+	               email: "Please enter a valid email address",
+	              
+	               password: {
+	                 required: "Please enter password",
+	                
+	               }
+	               
+	             },
+	             submitHandler: function(form) {
+	               form.submit();
+	             }
+	           });
+	         });
+	         
+
+
+	$(function() {
+	  
+	  $("form[name='registration']").validate({
+	    rules: {
+	      firstname: "required",
+	      lastname: "required",
+	      email: {
+	        required: true,
+	        email: true
+	      },
+	      password: {
+	        required: true,
+	        minlength: 5
+	      }
+	    },
+	    
+	    messages: {
+	      firstname: "Please enter your firstname",
+	      lastname: "Please enter your lastname",
+	      password: {
+	        required: "Please provide a password",
+	        minlength: "Your password must be at least 5 characters long"
+	      },
+	      email: "Please enter a valid email address"
+	    },
+	  
+	    submitHandler: function(form) {
+	      form.submit();
+	    }
+	  });
+	});
+
+</script>
+
+
+</body>
+</html>
